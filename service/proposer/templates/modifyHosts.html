@@ -1,0 +1,88 @@
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+    <meta charset="utf-8">  
+    <title>修改主机信息</title>  
+    {% include 'head.html' %} 
+</head>  
+<body> 
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" 
+        aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" 
+                       aria-hidden="true">×
+                    </button>
+                    <h4 class="modal-title text-center" id="myModalLabel">
+                       修改主机信息{{error}}
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="container">  
+                        <div class="container">  
+                            <form class="form-horizontal" role="form" id="modifyform" action="" method="post" enctype="multipart/form-data">  
+                                <div class="container text-left">
+                                    <div class="row">
+                                        <div class="col-sm-2 ">{{hf.ip.label}}：</div>
+                                        <div class="col-sm-4">{{hf.ip}}</div>      
+                                    </div><br>
+                                    <div class="row ">
+                                        <div class="col-sm-2 ">{{hf.hostname.label}}：</div>
+                                        <div class="col-sm-4">{{hf.hostname}}</div>      
+                                    </div><br>   
+                                    <div class="row ">
+                                        <div class="col-sm-2 ">{{hf.chinese_name.label}}：</div>
+                                        <div class="col-sm-4">{{hf.chinese_name}}</div>      
+                                    </div><br>   
+                                    <div class="row ">
+                                        <div class="col-sm-2 ">{{hf.ansible_ssh_user.label}}：</div>
+                                        <div class="col-sm-4">{{hf.ansible_ssh_user}}</div>      
+                                    </div><br>   
+                                    <div class="row ">
+                                        <div class="col-sm-2 ">{{hf.ansible_ssh_private_key_file.label}}：</div>
+                                        <div class="col-sm-4">{{hf.ansible_ssh_private_key_file}}</div>      
+                                    </div><br> 
+                                    <div class="row ">
+                                        <div class="col-sm-2 ">{{hf.ansible_ssh_pass.label}}：</div>
+                                        <div class="col-sm-4">{{hf.ansible_ssh_pass}}</div>      
+                                    </div><br> 
+                                    <div class="row ">
+                                        <div class="col-sm-2 ">发布环境：</div>
+                                        <div class="col-sm-4">{{hf.environment}}</div>      
+                                    </div><br> 
+                                    <div class="row ">
+                                        <div class="col-sm-2 ">
+                                            主机上的服务：
+                                        </div>
+                                        <div class="col-sm-4">{{hf.services}}</div>      
+                                    </div><br> 
+                                </div> 
+                            </form>  
+                        </div>    
+                    </div>   
+                </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" 
+                   data-dismiss="modal">关闭
+                </button>
+                <button form="modifyform" type="submit" class="btn btn-primary">
+                   修改
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+   $(function(){
+        $('#myModal').modal({
+            keyboard: true
+        });
+        $('#myModal').on('hidden.bs.modal', function () {
+            window.location.href = "/proposer/showHosts/";
+        })
+    });
+</script>
+</body>
+</html>
+

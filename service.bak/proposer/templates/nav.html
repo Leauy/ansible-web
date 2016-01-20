@@ -1,0 +1,27 @@
+
+<div class="row">
+    <div class="span10">
+        <ul class="nav nav-pills">
+            <li><a href="/">主&nbsp;页</a></li>  
+            <li><a href="/proposer/showHosts/">显示所有主机信息</a></li>   
+            <li><a href="/proposer/showService/">显示所有服务信息</a></li>
+            <li><a href="/proposer/showServiceConfig/">显示所有服务配置信息</a></li>
+            <li><a href="/proposer/showPlayBooks/">显示所有剧本文件</a></li>
+            <li><a href="/proposer/showTask/">显示所有任务</a></li>
+            <li><a href="/proposer/showEnvironment/">显示所有运行环境</a></li>
+			{% if user.is_superuser %}
+                <li><a href="/proposer/showLog/">查看历史操作记录</a></li>
+                <li><a href="/proposer/showPower/">授权</a></li>      
+            {% endif%}  
+        </ul>
+    </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+    $("li").click(function(){
+        alert($(this).className);
+        $(this).addClass('active');
+        alert($(this).className);
+    });
+});
+</script>

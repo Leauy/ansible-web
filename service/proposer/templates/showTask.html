@@ -1,0 +1,662 @@
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+    <meta charset="utf-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>任务</title>  
+    {% include 'head.html' %}
+    <script src="/static/js/icheck.js"></script>
+    <link href="/static/minimal/red.css" rel="stylesheet">
+    <script>
+        $(document).ready(function(){
+          $('input').iCheck({
+            checkboxClass: 'icheckbox_minimal-red',
+            radioClass: 'iradio_minimal-red',
+            increaseArea: '30%' // optional
+          });
+        });
+    </script>
+    <style type="text/css">
+        .spinner {
+            margin: 20px auto;
+            width: 50px;
+            height: 70px;
+            text-align: center;
+            font-size: 10px;
+        }
+ 
+        .spinner > div {
+          background-color: #67CF22;
+          height: 60%;
+          width: 6px;
+          display: inline-block;
+           
+          -webkit-animation: stretchdelay 1.2s infinite ease-in-out;
+          animation: stretchdelay 1.2s infinite ease-in-out;
+        }
+         
+        .spinner .rect2 {
+          -webkit-animation-delay: -1.1s;
+          animation-delay: -1.1s;
+        }
+         
+        .spinner .rect3 {
+          -webkit-animation-delay: -1.0s;
+          animation-delay: -1.0s;
+        }
+         
+        .spinner .rect4 {
+          -webkit-animation-delay: -0.9s;
+          animation-delay: -0.9s;
+        }
+         
+        .spinner .rect5 {
+          -webkit-animation-delay: -0.8s;
+          animation-delay: -0.8s;
+        }
+         
+        @-webkit-keyframes stretchdelay {
+          0%, 40%, 100% { -webkit-transform: scaleY(0.4) } 
+          20% { -webkit-transform: scaleY(1.0) }
+        }
+         
+        @keyframes stretchdelay {
+          0%, 40%, 100% {
+            transform: scaleY(0.4);
+            -webkit-transform: scaleY(0.4);
+          }  20% {
+            transform: scaleY(1.0);
+            -webkit-transform: scaleY(1.0);
+          }
+        }
+    </style>
+</head> 
+<body>
+
+    <div class="navbar navbar-default" id="navbar">
+            <script type="text/javascript">
+                try{ace.settings.check('navbar' , 'fixed')}catch(e){}
+            </script>
+
+            <div class="navbar-container" id="navbar-container">
+                <div class="navbar-header pull-left">
+                    <a href="/proposer/index/" class="navbar-brand">
+                        <small>
+                            <i class="icon-leaf"></i>
+                            版本发布系统系统
+                        </small>
+                    </a><!-- /.brand -->
+                </div><!-- /.navbar-header -->
+
+                <div class="navbar-header pull-right" role="navigation">
+                    <ul class="nav ace-nav">
+
+                        <li class="light-blue drop-down">
+                            <a data-toggle="dropdown" href="#" class="dropdown-toggle">
+                                <img class="nav-user-photo" src="/static/assets/avatars/user.jpg" alt="Jason's Photo">
+                                <span class="user-info">
+                                    <small>欢迎光临,</small>
+                                    {{user.username}}
+                                </span>
+
+                                <i class="icon-caret-down"></i>
+                            </a>
+
+                            <ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+                                <li>
+                                    <a href="/proposer/changepwd/">
+                                        <i class="icon-edit"></i>
+                                        修改密码
+                                    </a>
+                                </li>
+                                <li class="divider"></li>
+
+                                <li>
+                                    <a href="/proposer/logout/">
+                                        <i class="icon-off"></i>
+                                        退出
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul><!-- /.ace-nav -->
+                </div><!-- /.navbar-header -->
+            </div><!-- /.container -->
+        </div>
+
+        <div class="main-container" id="main-container">
+
+            <div class="main-container-inner">
+                <a class="menu-toggler" id="menu-toggler" href="#">
+                    <span class="menu-text"></span>
+                </a>
+
+                <div class="sidebar" id="sidebar">
+                    <ul class="nav nav-list">
+                        <li >
+                            <a href="/">
+                                <i class="icon-dashboard"></i>
+                                <span class="menu-text"> 控制台 - 首页 </span>
+                            </a>
+                        </li>
+
+
+                        <li class="active">
+                            <a href="#" class="dropdown-toggle">
+                                <i class="icon-desktop"></i>
+                                <span class="menu-text"> 版本发布系统 </span>
+
+                                <b class="arrow icon-angle-down"></b>
+                            </a>  
+
+                            <ul class="submenu">
+                                <li>
+                                    <a href="/proposer/showHosts/">
+                                        <i class="icon-double-angle-right"></i>
+                                        主机
+                                    </a>
+                                </li>
+
+                                <li >
+                                    <a href="/proposer/showService/">
+                                        <i class="icon-double-angle-right"></i>
+                                        服务
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="/proposer/showServiceConfig/">
+                                        <i class="icon-double-angle-right"></i>
+                                        配置
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="/proposer/showPlayBooks/">
+                                        <i class="icon-double-angle-right"></i>
+                                        剧本
+                                    </a>
+                                </li>
+
+                                <li class="active">
+                                    <a href="/proposer/showTask/">
+                                        <i class="icon-double-angle-right"></i>
+                                        任务
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="/proposer/showEnvironment/">
+                                        <i class="icon-double-angle-right"></i>
+                                        环境
+                                    </a>
+                                </li>
+                                {% if user.is_superuser %}
+                                    <li>
+                                        <a href="/proposer/showLog/">
+                                            <i class="icon-double-angle-right"></i>
+                                            日志
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="/proposer/showPower/">
+                                            <i class="icon-double-angle-right"></i>
+                                            授权
+                                        </a>
+                                    </li>      
+                                {% endif%}  
+                            </ul>
+                        </li>
+
+                    </ul><!-- /.nav-list -->
+
+                    <div class="sidebar-collapse" id="sidebar-collapse">
+                        <i class="icon-double-angle-left" data-icon1="icon-double-angle-left" data-icon2="icon-double-angle-right"></i>
+                    </div>
+
+                    <script type="text/javascript">
+                        try{ace.settings.check('sidebar' , 'collapsed')}catch(e){}
+                    </script>
+                </div>
+        </div>
+    </div>
+
+    <div class="main-content">
+
+    <div class="breadcrumbs" id="breadcrumbs">
+                        <script type="text/javascript">
+                            try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
+                        </script>
+
+                        <ul class="breadcrumb">
+                            <li>
+                                <i class="icon-home home-icon"></i>
+                                <a href="#">Home</a>
+                            </li>
+
+                            <li>
+                                <a href="#">版本发布系统</a>
+                            </li>
+                            <li class="active">任务</li>
+                        </ul>
+
+                        
+                    </div>
+
+                    <div class="page-content">
+                        <div class="page-header">
+                            <h1>
+                                版本发布系统
+                                <small>
+                                    <i class="icon-double-angle-right"></i>
+                                    任务
+                                </small>
+                            </h1>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="row">
+                                    <div class="col-xs-12">
+        <table class="table table-striped table-hover table-bordered text-center table-condensed">  
+                    <tr>  
+                        <th class="text-center">任务名称</th> 
+                        <th class="text-center">剧本文件</th> 
+                        <th class="text-center">hosts</th>
+                        <th class="text-center">运行环境</th>
+                        <th class="text-center" colspan=3>操作</th>  
+                        <th class="text-center" colspan=2>执行</th>
+                    </tr>  
+                    {% for task in objects %}  
+                        <tr>  
+                            <td>{{ task.name}}</td> 
+                            <td>{{ task.playbook}}</td>  
+                                <td>
+                                    {%for host in task.hosts.all%}
+                                        [{{host.hostname}}]<br>{{host.ip}}<br>
+                                    {%endfor%}
+                                </td> 
+                                <td>{{task.environment}}</td>
+                            <td>
+                                <a href="/proposer/modifyTask/{{task.id}}/" class="btn btn-xs btn-warning">   
+                                     <i class="icon-wrench  bigger-110 icon-only"></i>
+                                </a>
+                            </td>
+                            <td>
+                                <a href="/proposer/deleteTask/{{task.id}}/" class="btn btn-xs btn-danger" onclick ="return confirm('是否删除？')">
+                                    <i class="icon-trash  bigger-110 icon-only"></i>
+                                </a>
+                            </td> 
+                            <td>
+                                <!-- <a href="/proposer/addTask/" class="btn btn-info"><span class="glyphicon glyphicon-plus"></span></a> -->
+                                <button class="btn btn-info btn-xs" data-toggle="modal" 
+                                   data-target="#myModal{{task.id}}">
+                                   <i class="icon-plus  bigger-110 icon-only"></i>
+                                </button>
+                            
+                                <div class="modal fade" id="myModal{{task.id}}" tabindex="-1" 
+                                    role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                                    ×
+                                                </button>
+                                                <h4 class="modal-title" id="myModalLabel">
+                                                   添加任务
+                                                </h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="container">  
+                                                    <div class="container">  
+                                                        <form class="form-horizontal" role="form" id="addform{{task.id}}" action="/proposer/addTask/" method="post" enctype="multipart/form-data">  
+                                                            <div class="container text-left">
+                                                                <div class="row">
+                                                                    <div class="col-sm-1 ">
+                                                                        {{tf.name.label}}：
+                                                                    </div>
+                                                                    <div class="col-sm-4">
+                                                                        {{tf.name}}
+                                                                    </div>      
+                                                                </div><br>
+                                                                <div class="row">
+                                                                    <div class="col-sm-1 "> 
+                                                                        剧本文件：
+                                                                    </div>
+                                                                    <div class="col-sm-4">
+                                                                        {{tf.playbook}}
+                                                                    </div>      
+                                                                </div><br>  
+                                                                <div class="row">
+                                                                    <div class="col-sm-1 "> 
+                                                                        被部署的主机：
+                                                                    </div>
+                                                                    <div class="col-sm-4">
+                                                                        {{tf.hosts}}
+                                                                    </div>      
+                                                                </div><br>  
+                                                                <div class="row">
+                                                                    <div class="col-sm-1 "> 
+                                                                        发布环境：</div>
+                                                                    <div class="col-sm-4">
+                                                                        {{tf.environment}}
+                                                                    </div>      
+                                                                </div><br> 
+                                                            </div> 
+                                                        </form>  
+                                                    </div>    
+                                                </div>   
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">
+                                                    关闭
+                                                </button>
+                                                <button form="addform{{task.id}}" type="submit"     
+                                                    class="btn btn-primary">
+                                                    添加
+                                                </button>
+                                            </div>
+                                        </div><!-- /.modal-content -->
+                                    </div><!-- /.modal-dialog -->
+                                </div><!-- /.modal -->
+                            </td>
+                            <td>
+                                <button class="btn btn-info btn-xs" data-toggle="modal" id="btn{{task.id}}" data-target="#execute{{task.id}}">
+                                    <i class="icon-play  bigger-110 icon-only"></i>
+                                </button>
+                                <script type="text/javascript">
+                                    $(document).ready(function(){
+                                        $("#btn{{task.id}}").click(function(){
+                                            htmlobj=$.ajax({url:"/proposer/tasks/{{task.id}}",async:false});
+                                            $("#tasks{{task.id}}").html(htmlobj.responseText);
+                                        });
+                                        $("#form{{task.id}}  #id_environment").change(function(){
+                                            obj = $.ajax({
+                                                url:"/proposer/changeEnvironment/"
+                                                + $("#form{{task.id}} #id_environment").val()+'/',async:false});
+                                            $("#form{{task.id}} #id_hosts").html(obj.responseText);
+                                        });
+                                    });
+                                </script>
+                                <div class="modal fade" id="execute{{task.id}}" tabindex="-1" 
+                                    role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" 
+                                                   data-dismiss="modal" aria-hidden="true">
+                                                      &times;
+                                                </button>
+                                                <h4 class="modal-title" id="myModalLabel">
+                                                   配置并执行发布任务
+                                                </h4>
+                                            </div>
+                                        
+                                        <div class="modal-body">
+                                            <form id='form{{task.id}}'  method="POST" class="form-horizontal text-left">
+                                                <input type="text" hidden name="id" value="{{task.id}}">
+                                                <div class="container text-left">
+                                                    <div class="row">
+                                                        <div class="col-sm-2 ">
+                                                            {{cf.svn_version.label}}：
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            {{cf.svn_version}}
+                                                        </div>      
+                                                    </div><br>
+                                                    <div class="row">
+                                                        <div class="col-sm-2 ">
+                                                            发布环境：
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            {{cf.environment}}
+                                                        </div>      
+                                                    </div><br>
+                                                    <div class="row">
+                                                        <div class="col-sm-2 ">
+                                                            发布的主机：
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            {{cf.hosts}}
+                                                        </div>
+                                                    </div><br>
+                                                    <div class="row">
+                                                        <div class="col-sm-2 ">
+                                                            发布的备注：
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            <textarea rows="3" name="delc_desc">
+                                                            </textarea>
+                                                        </div>
+                                                    </div><br>
+                                                    <p id='tasks{{task.id}}'></p>
+                                                </div> 
+                                            </form>
+                                            <div class="spinner" id="progress{{task.id}}" style="display:none;">
+                                                <div class="rect1"></div>
+                                                <div class="rect2"></div>
+                                                <div class="rect3"></div>
+                                                <div class="rect4"></div>
+                                                <div class="rect5"></div>
+                                            </div>
+                                        
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" 
+                                                data-dismiss="modal">
+                                                关闭
+                                            </button>
+                                            <button type="submit" class="btn btn-primary" 
+                                                id="submit{{task.id}}" form="form{{task.id}}" onclick="displayProgress({{task.id}})">
+                                                执行
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <p>
+                                    <input type="checkbox" name="{{task.id}}" form="executeTasks">
+                                </p>
+                            </td>
+                        </tr>  
+                        <script type="text/javascript">
+                            function displayProgress(id){
+                                div_id = "progress"+id;
+                                oDiv = document.getElementById("progress"+id);
+                                oDiv.style.display = 'block'; 
+                            }
+                        </script>
+                        <script>
+                            $('#myModal{{task.id}}').modal('hide');
+                        </script>
+
+                        {% endfor %}
+                </table> 
+                {% if not objects %}
+                    <button class="btn btn-info btn-xs" data-toggle="modal" 
+                        data-target="#init">
+                        <i class="icon-plus  bigger-110 icon-only"></i>
+                    </button>
+                    <div class="modal fade" id="init" tabindex="-1" role="dialog" 
+                        aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" 
+                                        aria-hidden="true">
+                                        ×
+                                    </button>
+                                    <h4 class="modal-title" id="myModalLabel">
+                                        添加任务
+                                    </h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="container">  
+                                            <form class="form-horizontal" role="form" id="addform" action="/proposer/addTask/" method="post" enctype="multipart/form-data">  
+                                                <div class="container text-left">
+                                                    <div class="row">
+                                                        <div class="col-sm-1 ">
+                                                            {{tf.name.label}}：
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            {{tf.name}}
+                                                        </div>      
+                                                    </div><br>
+                                                        <div class="row">
+                                                            <div class="col-sm-1 ">
+                                                                剧本文件：
+                                                            </div>
+                                                            <div class="col-sm-4">
+                                                                {{tf.playbook}}
+                                                            </div>      
+                                                    </div><br>  
+                                                        <div class="row">
+                                                            <div class="col-sm-1 ">
+                                                                被部署的主机：
+                                                            </div>
+                                                            <div class="col-sm-4">
+                                                                {{tf.hosts}}
+                                                            </div>      
+                                                    </div><br>  
+                                                        <div class="row">
+                                                            <div class="col-sm-1 ">
+                                                                发布环境：
+                                                            </div>
+                                                            <div class="col-sm-4">
+                                                                {{tf.environment}}
+                                                            </div>      
+                                                    </div><br>  
+                                                </div>
+                                            </form>  
+                                    </div>    
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" 
+                                        data-dismiss="modal">
+                                        关闭
+                                    </button>
+                                    <button form="addform" type="submit" class="btn btn-primary">
+                                        添加
+                                    </button>
+                                </div>
+                            </div><!-- /.modal-content -->
+                        </div><!-- /.modal-dialog -->
+                    </div><!-- /.modal -->               
+                {% endif %}
+        
+
+            <div>
+                <form method="post" id="executeTasks" name="executeTasks">
+                    <div class="form-group">
+                        全选:<input type="checkbox" id="selAll">
+                    </div>
+                    <button type="submit"  class="btn btn-info btn-xs">
+                        批量执行<i class="icon-play  bigger-110 icon-only"></i>
+                    </button>
+                </form>
+            </div>
+        <script type="text/javascript">
+           $('.form-group input').on('ifChecked', function(event){
+               $('table tr td p input').iCheck('check');
+            });
+           $('.form-group input').on('ifUnchecked', function(event){
+               $('table tr td p input').iCheck('uncheck');
+            });
+        </script>
+        
+
+        <div class="container text-center">
+            <ul class="pagination">
+                {% for p in page_range %}
+                    {% ifequal p objects.number %}
+                        <li class="active"><a href="?page={{p}}" title="第{{p}}页">{{p}}</a></li>
+                    {% else %}
+                        <li><a href="?page={{p}}" title="第{{p}}页">{{p}}</a><li>
+                    {% endifequal %}
+                {% endfor %}
+            </ul>
+        </div>
+        
+    <!-- 模态框（Modal） -->
+        {% if result %}
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" 
+            aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" 
+                           data-dismiss="modal" aria-hidden="true">
+                              &times;
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">
+                           任务执行结果
+                        </h4>
+                    </div>
+                
+                    <div class="modal-body" style="background:black;">
+                        {{result|safe}}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" 
+                           data-dismiss="modal">关闭
+                        </button>
+                    </div>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+        {% endif %}
+        <script>
+            $(function(){ 
+                $('#myModal').modal({
+                    keyboard: true
+                });
+            });
+        </script>
+
+        {% if unconfiged %}
+        <div class="modal fade" id="unconfiged" tabindex="-1" role="dialog" 
+            aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" 
+                           data-dismiss="modal" aria-hidden="true">
+                              &times;
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">
+                           任务执行结果
+                        </h4>
+                    </div>
+                </div>
+                <div class="modal-body" style="">
+                    <form method="post">
+                        {% for config in unconfiged%}
+                            {{config}}:<input type="text" name="{{config}}"><br>
+                        {% endfor %}
+                        服务:<select name="service_name">
+                                {%for host in task.hosts.all %}
+                                    {% for service in host.services.all %}
+                                    <option value="{{service.service_name}}">
+                                        {{service.service_name}}
+                                    </option>
+                                    {% endfor %}
+                                {%endfor%}
+                            </select><br>
+                        <input type="submit" value="提交">
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" 
+                       data-dismiss="modal">关闭
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+        {% endif %}
+        <script>
+           $(function () { $('#unconfiged').modal({
+              keyboard: true
+           })});
+        </script>
+    </div>
+</body>
+</html>

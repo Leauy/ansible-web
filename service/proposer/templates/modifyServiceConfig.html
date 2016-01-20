@@ -1,0 +1,70 @@
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+    <title>修改服务配置信息</title>
+    <meta charset='utf-8'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% include 'head.html' %} 
+</head>  
+<body>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" 
+        aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" 
+                       aria-hidden="true">×
+                    </button>
+                    <h4 class="modal-title text-center" id="myModalLabel">
+                       修改服务配置信息
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="container">  
+                        <div class="container">  
+                            <form class="form-horizontal" role="form" id="modifyform" action="" method="post" enctype="multipart/form-data">  
+                                <div class="container text-left">
+                                    <div class="row">
+                                        <div class="col-sm-2 ">{{scf.config_name.label}}：</div>
+                                        <div class="col-sm-4">{{scf.config_name}}</div>      
+                                    </div><br>
+                                    <div class="row">
+                                        <div class="col-sm-2 ">{{scf.config_value.label}}：</div>
+                                        <div class="col-sm-4">{{scf.config_value}}</div>      
+                                    </div><br>
+                                    <div class="row">
+                                        <div class="col-sm-2 ">发布环境：</div>
+                                        <div class="col-sm-4">{{scf.environment}}</div>      
+                                    </div><br>
+                                    <div class="row">
+                                        <div class="col-sm-2 ">所属服务：</div>
+                                        <div class="col-sm-4">{{scf.service}}</div>      
+                                    </div><br>
+                                </div> 
+                            </form>  
+                        </div>    
+                    </div>   
+                </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" 
+                   data-dismiss="modal">关闭
+                </button>
+                <button form="modifyform" type="submit" class="btn btn-primary">
+                  修改
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+   $(function(){ 
+        $('#myModal').modal({
+            keyboard: true
+        })
+        $('#myModal').on('hidden.bs.modal', function () {
+            window.location.href = "/proposer/showServiceConfig/";
+        });
+    });
+</script>   
+</body>
+</html>

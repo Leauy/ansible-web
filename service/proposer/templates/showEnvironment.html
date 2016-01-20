@@ -1,0 +1,322 @@
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>环境</title>  
+    {% include 'head.html' %}
+</head>  
+<body>
+<div class="navbar navbar-default" id="navbar">
+    <script type="text/javascript">
+        try{ace.settings.check('navbar' , 'fixed')}catch(e){}
+    </script>
+
+    <div class="navbar-container" id="navbar-container">
+        <div class="navbar-header pull-left">
+            <a href="/proposer/index/" class="navbar-brand">
+                <small>
+                    <i class="icon-leaf"></i>
+                    版本发布系统系统
+                 </small>
+            </a><!-- /.brand -->
+        </div><!-- /.navbar-header -->
+
+        <div class="navbar-header pull-right" role="navigation">
+            <ul class="nav ace-nav">
+
+                <li class="light-blue drop-down">
+                    <a data-toggle="dropdown" href="#" class="dropdown-toggle">
+                        <img class="nav-user-photo" src="/static/assets/avatars/user.jpg" alt="Jason's Photo">
+                        <span class="user-info">
+                            <small>欢迎光临,</small>
+                            {{user.username}}
+                        </span>
+
+                        <i class="icon-caret-down"></i>
+                    </a>
+
+                    <ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+                        <li>
+                            <a href="/proposer/changepwd/">
+                                <i class="icon-edit"></i>
+                                修改密码
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+
+                        <li>
+                            <a href="/proposer/logout/">
+                                <i class="icon-off"></i>
+                                退出
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul><!-- /.ace-nav -->
+        </div><!-- /.navbar-header -->
+    </div><!-- /.container -->
+</div>
+
+        <div class="main-container" id="main-container">
+
+            <div class="main-container-inner">
+                <a class="menu-toggler" id="menu-toggler" href="#">
+                    <span class="menu-text"></span>
+                </a>
+
+                <div class="sidebar" id="sidebar">
+                    <ul class="nav nav-list">
+                        <li >
+                            <a href="/">
+                                <i class="icon-dashboard"></i>
+                                <span class="menu-text"> 控制台 - 首页 </span>
+                            </a>
+                        </li>
+
+
+                        <li class="active">
+                            <a href="#" class="dropdown-toggle">
+                                <i class="icon-desktop"></i>
+                                <span class="menu-text"> 版本发布系统 </span>
+
+                                <b class="arrow icon-angle-down"></b>
+                            </a>  
+
+                            <ul class="submenu">
+                                <li>
+                                    <a href="/proposer/showHosts/">
+                                        <i class="icon-double-angle-right"></i>
+                                        主机
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="/proposer/showService/">
+                                        <i class="icon-double-angle-right"></i>
+                                        服务
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="/proposer/showServiceConfig/">
+                                        <i class="icon-double-angle-right"></i>
+                                        配置
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="/proposer/showPlayBooks/">
+                                        <i class="icon-double-angle-right"></i>
+                                        剧本
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="/proposer/showTask/">
+                                        <i class="icon-double-angle-right"></i>
+                                        任务
+                                    </a>
+                                </li>
+
+                                <li class="active">
+                                    <a href="/proposer/showEnvironment/">
+                                        <i class="icon-double-angle-right"></i>
+                                        环境
+                                    </a>
+                                </li>
+                                {% if user.is_superuser %}
+                                    <li>
+                                        <a href="/proposer/showLog/">
+                                            <i class="icon-double-angle-right"></i>
+                                            日志
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="/proposer/showPower/">
+                                            <i class="icon-double-angle-right"></i>
+                                            授权
+                                        </a>
+                                    </li>      
+                                {% endif%}  
+                            </ul>
+                        </li>
+                    </ul><!-- /.nav-list -->
+
+                    <div class="sidebar-collapse" id="sidebar-collapse">
+                        <i class="icon-double-angle-left" data-icon1="icon-double-angle-left" data-icon2="icon-double-angle-right"></i>
+                    </div>
+
+                    <script type="text/javascript">
+                        try{ace.settings.check('sidebar' , 'collapsed')}catch(e){}
+                    </script>
+                </div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="breadcrumbs" id="breadcrumbs">
+            <script type="text/javascript">
+                try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
+            </script>
+
+            <ul class="breadcrumb">
+                <li>
+                    <i class="icon-home home-icon"></i>
+                    <a href="#">Home</a>
+                </li>
+
+                <li>
+                    <a href="#">版本发布系统</a>
+                </li>
+                <li class="active">环境</li>
+            </ul>
+        </div>
+
+        <div class="page-content">
+            <div class="page-header">
+                <h1>
+                    版本发布系统
+                    <small>
+                        <i class="icon-double-angle-right"></i>
+                        环境
+                    </small>
+                </h1>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="row">
+                        <div class="col-xs-12">
+                <table class="table table-striped table-hover table-bordered text-center table-condensed"> 
+                <tr class="text-center">  
+                    <th class="text-center">环境名称</th>  
+                    <th colspan=3 class="text-center">操作</th>  
+                </tr>  
+                {% for envir in objects %}  
+                    <tr>  
+                        <td>{{ envir.name}}</td>  
+                        <td>
+                            <a href="/proposer/modifyEnvironment/{{envir.id}}/" class="btn btn-warning btn-xs">
+                                <i class="icon-wrench  bigger-110 icon-only"></i>
+                            </a>
+                        </td>
+                        <td>
+                            <a href="/proposer/deleteEnvironment/{{envir.id}}/" class="btn btn-danger btn-xs" onclick ="return confirm('是否删除？')">
+                                <i class="icon-trash  bigger-110 icon-only"></i>
+                            </a>
+                        </td> 
+                        <td>
+                            <button class="btn btn-info btn-xs" data-toggle="modal"
+                                data-target="#myModal{{envir.id}}">
+                                <i class="icon-plus  bigger-110 icon-only"></i>
+                            </button>
+                            <div class="modal fade" id="myModal{{envir.id}}" tabindex="-1" role="dialog" 
+                                aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" 
+                                                aria-hidden="true">×
+                                            </button>
+                                            <h4 class="modal-title" id="myModalLabel">
+                                                添加发布环境
+                                            </h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="container">  
+                                                <div class="container">  
+                                                    <form class="form-horizontal" role="form" 
+                                                        id="addform{{envir.id}}" 
+                                                        action="/proposer/addEnvironment/" 
+                                                        method="post" enctype="multipart/form-data">  
+                                                        <div class="container text-left">
+                                                            <div class="row">
+                                                                <div class="col-sm-1 ">
+                                                                    {{ef.name.label}}：
+                                                                </div>
+                                                                <div class="col-sm-4">
+                                                                    {{ef.name}}
+                                                                </div>      
+                                                            </div><br>
+                                                        </div> 
+                                                   </form>  
+                                                </div>   
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">
+                                                关闭
+                                            </button>
+                                            <button form="addform{{envir.id}}" type="submit" class="btn btn-primary">
+                                                添加
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>  
+                            
+                        </td>
+                    </tr>   
+                {% endfor %}  
+        </table>
+        {% if not objects %}
+            <button class="btn btn-xs btn-info" data-toggle="modal" data-target="#init">
+                <i class="icon-plus  bigger-110 icon-only"></i>
+            </button>
+            <div class="modal fade" id="init" tabindex="-1" role="dialog"                           aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                            </button>
+                            <h4 class="modal-title" id="myModalLabel">
+                                添加发布环境
+                            </h4>
+                        </div>
+                    <div class="modal-body">
+                    <div class="container">  
+                        <div class="container">  
+                            <form class="form-horizontal" role="form" id="addform{{envir.id}}" action="/proposer/addEnvironment/" method="post" enctype="multipart/form-data">  
+                                <div class="container text-left">
+                                    <div class="row">
+                                        <div class="col-sm-1 ">
+                                            {{ef.name.label}}：
+                                        </div>
+                                        <div class="col-sm-4">
+                                            {{ef.name}}
+                                        </div>      
+                                    </div><br>
+                                </div>
+                            </form>  
+                        </div>    
+                    </div>   
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default"  data-dismiss="modal">
+                        关闭
+                    </button>
+                    <button form="addform{{envir.id}}" type="submit" class="btn btn-primary">
+                        添加
+                    </button>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    
+        <div class="container text-center">
+                <ul class="pagination">
+                {% for p in page_range %}
+                    {% ifequal p objects.number %}
+                        <li class="active"><a href="?page={{p}}" title="第{{p}}页">{{p}}</a></li>
+                    {% else %}
+                        <li><a href="?page={{p}}" title="第{{p}}页">{{p}}</a><li>
+                    {% endifequal %}
+                {% endfor %}
+                </ul>
+        </div>
+    </div>
+    </div>
+</div>
+</body>
+</html>

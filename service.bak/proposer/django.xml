@@ -1,0 +1,5 @@
+<uwsgi>
+    <socket>127.0.0.1:8630</socket>
+	<chdir>/root/git/ansible-web/service/proposer</chdir>
+	<module>django_wsgi</module>
+</uwsgi>
